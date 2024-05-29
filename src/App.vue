@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import { RouterView } from 'vue-router';
-import {useToggle} from '@vueuse/core';
+import { useToggle } from '@vueuse/core';
 import appConfig from './app-config';
 import Nav from './components/Nav/Nav.vue';
-
 </script>
 
 <template>

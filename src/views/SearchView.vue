@@ -1,39 +1,38 @@
 <script setup lang="ts">
-  import { useSearchStore } from '@/stores/search';
-  import { onMounted, ref, watch } from 'vue';
+import { useSearchStore } from '@/stores/search';
+import { onMounted, ref, watch } from 'vue';
 
-  const currentInstructions = ref<{
-    drinkId: string;
-    instructions: string;
-  }>({ drinkId: '', instructions: '' });
+const currentInstructions = ref<{
+  drinkId: string;
+  instructions: string;
+}>({ drinkId: '', instructions: '' });
 
-  const search = useSearchStore();
+const search = useSearchStore();
 
-  const handleSearch = async (e: Event) => {
-    const target = e.target as HTMLInputElement;
-    search.searchByNameAsync(target.value);
+const handleSearch = async (e: Event) => {
+  const target = e.target as HTMLInputElement;
+  search.searchByNameAsync(target.value);
+};
+
+const getTags = (tags: string | null) => {
+  return tags ? tags.split(',') : [];
+};
+
+const displayInstructions = (id: string, instructions: string) => {
+  currentInstructions.value = {
+    drinkId: id,
+    instructions: instructions
   };
+  const el = document.getElementById(id);
+  if (el) {
+    (el as HTMLDialogElement).showModal();
+  }
+};
 
-  const getTags = (tags: string | null) =>  {
-    return tags ? tags.split(',') : [];
-  };
-
-  const displayInstructions = (id: string, instructions: string) =>  {
-      currentInstructions.value = {
-        drinkId: id,
-        instructions: instructions
-      };
-      const el = document.getElementById(id);
-      if(el){
-        (el as HTMLDialogElement).showModal();
-      }
-    }
-
-  // Fire search post mont
-  onMounted(() => {
-    search.searchByNameAsync('');
-  });
-
+// Fire search post mont
+onMounted(() => {
+  search.searchByNameAsync('');
+});
 </script>
 
 <template>
@@ -51,42 +50,45 @@
         </label>
         <div class="drink-list flex flex-col gap-4" v-if="search.$state.results.drinks.length > 0">
           <div v-for="drink in search.$state.results.drinks" :key="drink.idDrink"
-            class="drink-list-item card shadow-xl p-8 flex flex-col gap-4">
-
-            <!-- Drink name -->
-            <div>{{ drink.strDrink }}</div>
-
-            <!-- Instructions -->
-            <div class="instructions">
-              <button class="btn-info btn" @click="() => displayInstructions(drink.idDrink, drink.strInstructions)">Read
-                More</button>
-
-              <dialog className="modal" :id="drink.idDrink">
-                <div className="modal-box">
-                  <h3 class="font-bold text-lg">{{ drink.strDrink }}</h3>
-                  <p class="py-4">{{ drink.strInstructions }}</p>
-                </div>
-                <form method="dialog" className="modal-backdrop">
-                  <button>close</button>
-                </form>
-              </dialog>
-            </div>
-
-            <!-- Category -->
-            <div class="text-sm">
-              Drink Category:
-              <div class="badge">{{ drink.strCategory }}</div>
-            </div>
-
+            class="drink-list-item card shadow-xl flex flex-col gap-4">
             <!-- Drink thumbnail -->
             <figure class="flex-none flex-grow">
-              <img class="h-full" :src="drink.strDrinkThumb" :alt="drink.strDrink" />
+              <img class="" :src=" drink.strDrinkThumb" :alt="drink.strDrink" />
             </figure>
 
-            <!-- Tags -->
-            <div class="flex gap-2">
-              <div v-for="tag in getTags(drink.strTags)">
-                <span class="text-xs">{{tag }}</span>
+            <div class="p-4 flex flex-col gap-4">
+              <!-- Drink name -->
+              <div>{{ drink.strDrink }}</div>
+
+              <!-- Instructions -->
+              <div class="instructions">
+                <button class="btn-outline btn btn-xs"
+                  @click="() => displayInstructions(drink.idDrink, drink.strInstructions)">
+                  + More
+                </button>
+
+                <dialog className="modal" :id="drink.idDrink">
+                  <div className="modal-box">
+                    <h3 class="font-bold text-lg">{{ drink.strDrink }}</h3>
+                    <p class="py-4">{{ drink.strInstructions }}</p>
+                  </div>
+                  <form method="dialog" className="modal-backdrop">
+                    <button>close</button>
+                  </form>
+                </dialog>
+              </div>
+
+              <!-- Category -->
+              <div class="text-sm">
+                Drink Category:
+                <div class="badge">{{ drink.strCategory }}</div>
+              </div>
+
+              <!-- Tags -->
+              <div class="flex gap-2">
+                <div v-for="tag in getTags(drink.strTags)">
+                  <span class="text-xs">{{ tag }}</span>
+                </div>
               </div>
             </div>
           </div>

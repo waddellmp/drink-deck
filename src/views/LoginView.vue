@@ -38,7 +38,9 @@ const [password, passwordAttrs] = defineField('password');
                   </svg>
                   <input type="text" class="grow" placeholder="Username" v-model="username" v-bind="usernameAttrs" />
                 </label>
-                <div v-if="meta.touched && errors.username" class="text-error">{{ errors.username }}</div>
+                <div v-if="meta.touched && errors.username" class="text-error">
+                  {{ errors.username }}
+                </div>
               </div>
               <div>
                 <label class="input input-bordered flex items-center gap-2">
@@ -50,10 +52,14 @@ const [password, passwordAttrs] = defineField('password');
                   </svg>
                   <input type="password" class="grow" v-model="password" v-bind="passwordAttrs" />
                 </label>
-                <span v-if="meta.touched && errors.password" class="text-error">{{ errors.password }}</span>
+                <span v-if="meta.touched && errors.password" class="text-error">{{
+                  errors.password
+                  }}</span>
               </div>
               <div class="flex gap-4">
-                <button :disabled="!meta.touched" class="btn btn-primary grow" type="submit">Login</button>
+                <button :disabled="!meta.touched" class="btn btn-primary grow" type="submit">
+                  Login
+                </button>
                 <button class="btn btn-secondary grow" type="reset">Create Account</button>
               </div>
               <a href="#" class="link">Forgot password?</a>

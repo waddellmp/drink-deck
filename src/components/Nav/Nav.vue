@@ -2,18 +2,14 @@
 import { onKeyDown } from '@vueuse/core';
 import type { Component, VueElement } from 'vue';
 
-  defineProps<{
-    Content: Component;
-    navItems: {
-      id: string;
-      label: string;
-      path: string;
-    }[];
-  }>();
-
-  onKeyDown('esc', () => {
-    
-  });
+defineProps<{
+  Content: Component;
+  navItems: {
+    id: string;
+    label: string;
+    path: string;
+  }[];
+}>();
 </script>
 
 <template>
@@ -30,15 +26,7 @@ import type { Component, VueElement } from 'vue';
             </svg>
           </label>
         </div>
-
         <div class="flex-1 px-2 mx-2">
-          <!-- <a class="btn btn-ghost text-lg">
-            Drink Deck
-            <svg class="w-12" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
-              <path d="M20 20h60v40a10 10 0 0 1 -10 10H30a10 10 0 0 1 -10 -10z" fill="#000" />
-              <path d="M40 35c5 0 10 5 10 10s-5 10-10 10 -10 -5 -10 -10 5 -10 10 -10z" fill="#fff" />
-            </svg>
-          </a> -->
           <div class="navbar bg-base-100">
             <div class="navbar-start">
               <router-link to="/" class="btn btn-ghost text-xl">DrinkDeck</router-link>
